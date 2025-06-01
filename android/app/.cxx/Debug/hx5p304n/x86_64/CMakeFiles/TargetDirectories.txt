@@ -1,0 +1,2 @@
+C:/Users/Administrator/Downloads/Rider-17/Rider-17/android/app/.cxx/Debug/hx5p304n/x86_64/CMakeFiles/edit_cache.dir
+C:/Users/Administrator/Downloads/Rider-17/Rider-17/android/app/.cxx/Debug/hx5p304n/x86_64/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,68 @@
+# MightyTaxi App - Server configuration to bypass Imunify360 bot protection
+RewriteEngine on
+
+# ============= CORS HEADERS =============
+<IfModule mod_headers.c>
+    # Add CORS headers
+    Header always set Access-Control-Allow-Origin "*"
+    Header always set Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+    Header always set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+    
+    # Security headers to reduce fingerprinting
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+</IfModule>
+
+# ============= IMUNIFY360 BOT PROTECTION BYPASS =============
+<IfModule mod_security2.c>
+    # === OPTION 1: Disable ModSecurity for specific User-Agents ===
+    # Chrome browser User-Agent
+    SecRule REQUEST_HEADERS:User-Agent "Mozilla/5.0 \(Windows NT 10\.0; Win64; x64\) AppleWebKit/537\.36 \(KHTML, like Gecko\) Chrome/\d+\.0\.0\.0 Safari/537\.36" \
+        "id:1000001,phase:1,pass,nolog,ctl:ruleEngine=Off"
+        
+    # Mobile app's legacy User-Agent
+    SecRule REQUEST_HEADERS:User-Agent "MightyTaxiRiderApp" \
+        "id:1000002,phase:1,pass,nolog,ctl:ruleEngine=Off"
+    
+    # === OPTION 2: Disable ModSecurity for specific API endpoints ===
+    # Booking endpoint
+    SecRule REQUEST_URI "^/api/save-riderequest" \
+        "id:1000003,phase:1,pass,nolog,ctl:ruleEngine=Off"
+    
+    # All API endpoints
+    SecRule REQUEST_URI "^/api/" \
+        "id:1000004,phase:1,pass,nolog,ctl:ruleEngine=Off"
+    
+    # === OPTION 3: Disable specific Imunify360 rules ===
+    # Common bot protection rules
+    SecRuleRemoveById 950007  # HTTP protocol violation
+    SecRuleRemoveById 960008  # Empty User-Agent header
+    SecRuleRemoveById 960015  # Request Missing Accept Header
+    
+    # Add more rule IDs if known:
+    # SecRuleRemoveById XXXXX
+</IfModule>
+
+# ============= ALTERNATIVE APPROACH: WHITELIST USER-AGENTS =============
+# Set environment variables for whitelisted User-Agents
+SetEnvIfNoCase User-Agent "Mozilla/5.0 \(Windows NT 10\.0; Win64; x64\) AppleWebKit/537\.36 \(KHTML, like Gecko\)" allowed_browser
+SetEnvIfNoCase User-Agent "MightyTaxiRiderApp" allowed_app
+
+# Allow these User-Agents by default
+<If "reqenv('allowed_browser') == '1' || reqenv('allowed_app') == '1'">
+    # These requests are allowed
+</If>
+
+# ============= IMUNIFY360 SPECIFIC CONFIGURATION =============
+# If you have SSH access to the server, run these commands:
+#
+# 1. Disable Imunify360 bot protection for your app:
+# imunify360-agent whitelist ip add YOUR_APP_IP_ADDRESS --comment "MightyTaxi App"
+#
+# 2. Or disable Proactive Defense if needed:
+# imunify360-agent config update '{"PROACTIVE_DEFENSE": {"web_app_firewall": {"enabled": false}}}'
+
+# ============= FORWARD TO PUBLIC DIRECTORY =============
+# Keep your existing rule at the end
+RewriteCond %{REQUEST_URI} !^public
+RewriteRule ^(.*)$ public/$1 [L] 

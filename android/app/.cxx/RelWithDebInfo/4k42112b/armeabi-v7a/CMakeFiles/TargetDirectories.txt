@@ -1,0 +1,2 @@
+D:/taxi/MightyTaxiSourceCode/TaxiRiderApp-17/Rider-17/android/app/.cxx/RelWithDebInfo/4k42112b/armeabi-v7a/CMakeFiles/edit_cache.dir
+D:/taxi/MightyTaxiSourceCode/TaxiRiderApp-17/Rider-17/android/app/.cxx/RelWithDebInfo/4k42112b/armeabi-v7a/CMakeFiles/rebuild_cache.dir
