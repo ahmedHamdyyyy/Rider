@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:lottie/lottie.dart';
@@ -479,18 +480,22 @@ class RideAcceptWidgetState extends State<RideAcceptWidget> {
                     Text(widget.driverData!.driverService!.name.validate(),
                         style: boldTextStyle()),
                     SizedBox(height: 2),
-                    Row(
-                      children: [
-                        Text("تكلفة الرحلة  ", style: secondaryTextStyle()),
-                        Text(
-                          widget.rideRequest!.subtotal != null
-                              ? '${widget.rideRequest!.subtotal!.toStringAsFixed(2)} ${appStore.currencyCode}'
-                              : (widget.rideRequest!.totalAmount != null
-                                  ? '${widget.rideRequest!.totalAmount!.toStringAsFixed(2)} ${appStore.currencyCode}'
-                                  : 'غير محدد'),
-                          style: boldTextStyle(color: Colors.green),
-                        ),
-                      ],
+                    Observer(
+                      builder: (context) => Row(
+                        children: [
+                          Text("تكلفة الرحلة  ", style: secondaryTextStyle()),
+                          Text(
+                            appStore.selectedTripTotalAmount > 0
+                                ? '${appStore.selectedTripTotalAmount.toStringAsFixed(2)} ${appStore.currencyCode}'
+                                : (widget.rideRequest!.subtotal != null
+                                    ? '${widget.rideRequest!.subtotal!.toStringAsFixed(2)} ${appStore.currencyCode}'
+                                    : (widget.rideRequest!.totalAmount != null
+                                        ? '${widget.rideRequest!.totalAmount!.toStringAsFixed(2)} ${appStore.currencyCode}'
+                                        : 'غير محدد')),
+                            style: boldTextStyle(color: Colors.green),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -578,8 +583,7 @@ class RideAcceptWidgetState extends State<RideAcceptWidget> {
                           style: primaryTextStyle(size: 14), maxLines: 2)),
                 ],
               ),
-              if (widget.rideRequest!.multiDropLocation != null &&
-                  widget.rideRequest!.multiDropLocation!.isNotEmpty)
+              if (widget.rideRequest!.multiDropLocation?.isNotEmpty == true)
                 Row(
                   children: [
                     SizedBox(width: 8),
@@ -595,8 +599,7 @@ class RideAcceptWidgetState extends State<RideAcceptWidget> {
                     ),
                   ],
                 ),
-              if (widget.rideRequest!.multiDropLocation != null &&
-                  widget.rideRequest!.multiDropLocation!.isNotEmpty)
+              if (widget.rideRequest!.multiDropLocation?.isNotEmpty == true)
                 AppButtonWidget(
                   textColor: primaryColor,
                   color: Colors.white,
@@ -709,8 +712,9 @@ class RideAcceptWidgetState extends State<RideAcceptWidget> {
                 ],
               ),
             ),
-          if (widget.rideRequest!.status != IN_PROGRESS &&
-              widget.rideRequest!.status != COMPLETED)
+          if (widget.rideRequest!.status != IN_PROGRESS
+              ? widget.rideRequest!.status != COMPLETED
+              : false)
             AppButtonWidget(
                 width: MediaQuery.of(context).size.width,
                 text: language.cancel,

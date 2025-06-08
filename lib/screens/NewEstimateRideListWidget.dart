@@ -397,7 +397,7 @@ class NewEstimateRideListWidgetState extends State<NewEstimateRideListWidget>
       "lat": widget.sourceLatLog.latitude,
       "lng": widget.sourceLatLog.longitude
     });
-    if (widget.multiDropObj != null && widget.multiDropObj!.isNotEmpty) {
+    if (widget.multiDropObj?.isNotEmpty == true) {
       widget.multiDropObj!.forEach(
         (key, value) {
           LatLng s = value as LatLng;
@@ -457,10 +457,16 @@ class NewEstimateRideListWidgetState extends State<NewEstimateRideListWidget>
           mSelectServiceAmount = serviceList[selectedIndex]
               .subtotal!
               .toStringAsFixed(fixedDecimal);
+          // Store the actual price including discount in global store
+          appStore.setSelectedTripTotalAmount(
+              serviceList[selectedIndex].subtotal ?? 0);
         } else {
           mSelectServiceAmount = serviceList[selectedIndex]
               .totalAmount!
               .toStringAsFixed(fixedDecimal);
+          // Store the total amount in global store
+          appStore.setSelectedTripTotalAmount(
+              serviceList[selectedIndex].totalAmount ?? 0);
         }
       }
       if (oldPaymentType != null) {
@@ -533,10 +539,16 @@ class NewEstimateRideListWidgetState extends State<NewEstimateRideListWidget>
           mSelectServiceAmount = serviceList[selectedIndex]
               .subtotal!
               .toStringAsFixed(fixedDecimal);
+          // Store the actual price including discount in global store
+          appStore.setSelectedTripTotalAmount(
+              serviceList[selectedIndex].subtotal ?? 0);
         } else {
           mSelectServiceAmount = serviceList[selectedIndex]
               .totalAmount!
               .toStringAsFixed(fixedDecimal);
+          // Store the total amount in global store
+          appStore.setSelectedTripTotalAmount(
+              serviceList[selectedIndex].totalAmount ?? 0);
         }
       }
       setState(() {});
@@ -1339,9 +1351,13 @@ class NewEstimateRideListWidgetState extends State<NewEstimateRideListWidget>
                   if (e.discountAmount != 0) {
                     mSelectServiceAmount =
                         e.subtotal!.toStringAsFixed(fixedDecimal);
+                    // Store the actual price including discount in global store
+                    appStore.setSelectedTripTotalAmount(e.subtotal ?? 0);
                   } else {
                     mSelectServiceAmount =
                         e.totalAmount!.toStringAsFixed(fixedDecimal);
+                    // Store the total amount in global store
+                    appStore.setSelectedTripTotalAmount(e.totalAmount ?? 0);
                   }
                   selectedIndex = serviceList.indexOf(e);
                   servicesListData = e;

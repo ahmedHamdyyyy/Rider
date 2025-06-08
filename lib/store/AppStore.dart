@@ -96,6 +96,14 @@ abstract class _AppStore with Store {
   @observable
   String userPhone = '';
 
+  @observable
+  num selectedTripTotalAmount = 0;
+
+  @action
+  Future<void> setSelectedTripTotalAmount(num val) async {
+    selectedTripTotalAmount = val;
+  }
+
   @action
   Future<void> setIsRiderForAnother(String? val) async {
     isRiderForAnother = val!;

@@ -297,6 +297,210 @@ mixin _$AppStore on _AppStore, Store {
     });
   }
 
+  late final _$isRiderForAnotherAtom =
+      Atom(name: '_AppStore.isRiderForAnother', context: context);
+
+  @override
+  String? get isRiderForAnother {
+    _$isRiderForAnotherAtom.reportRead();
+    return super.isRiderForAnother;
+  }
+
+  @override
+  set isRiderForAnother(String? value) {
+    _$isRiderForAnotherAtom.reportWrite(value, super.isRiderForAnother, () {
+      super.isRiderForAnother = value;
+    });
+  }
+
+  late final _$isMultiDropAtom =
+      Atom(name: '_AppStore.isMultiDrop', context: context);
+
+  @override
+  String? get isMultiDrop {
+    _$isMultiDropAtom.reportRead();
+    return super.isMultiDrop;
+  }
+
+  @override
+  set isMultiDrop(String? value) {
+    _$isMultiDropAtom.reportWrite(value, super.isMultiDrop, () {
+      super.isMultiDrop = value;
+    });
+  }
+
+  late final _$isScheduleRideAtom =
+      Atom(name: '_AppStore.isScheduleRide', context: context);
+
+  @override
+  String? get isScheduleRide {
+    _$isScheduleRideAtom.reportRead();
+    return super.isScheduleRide;
+  }
+
+  @override
+  set isScheduleRide(String? value) {
+    _$isScheduleRideAtom.reportWrite(value, super.isScheduleRide, () {
+      super.isScheduleRide = value;
+    });
+  }
+
+  late final _$isBidEnableAtom =
+      Atom(name: '_AppStore.isBidEnable', context: context);
+
+  @override
+  String? get isBidEnable {
+    _$isBidEnableAtom.reportRead();
+    return super.isBidEnable;
+  }
+
+  @override
+  set isBidEnable(String? value) {
+    _$isBidEnableAtom.reportWrite(value, super.isBidEnable, () {
+      super.isBidEnable = value;
+    });
+  }
+
+  late final _$settingModelAtom =
+      Atom(name: '_AppStore.settingModel', context: context);
+
+  @override
+  SettingModel get settingModel {
+    _$settingModelAtom.reportRead();
+    return super.settingModel;
+  }
+
+  @override
+  set settingModel(SettingModel value) {
+    _$settingModelAtom.reportWrite(value, super.settingModel, () {
+      super.settingModel = value;
+    });
+  }
+
+  late final _$privacyPolicyAtom =
+      Atom(name: '_AppStore.privacyPolicy', context: context);
+
+  @override
+  String? get privacyPolicy {
+    _$privacyPolicyAtom.reportRead();
+    return super.privacyPolicy;
+  }
+
+  @override
+  set privacyPolicy(String? value) {
+    _$privacyPolicyAtom.reportWrite(value, super.privacyPolicy, () {
+      super.privacyPolicy = value;
+    });
+  }
+
+  late final _$termsConditionAtom =
+      Atom(name: '_AppStore.termsCondition', context: context);
+
+  @override
+  String? get termsCondition {
+    _$termsConditionAtom.reportRead();
+    return super.termsCondition;
+  }
+
+  @override
+  set termsCondition(String? value) {
+    _$termsConditionAtom.reportWrite(value, super.termsCondition, () {
+      super.termsCondition = value;
+    });
+  }
+
+  late final _$mHelpAndSupportAtom =
+      Atom(name: '_AppStore.mHelpAndSupport', context: context);
+
+  @override
+  String? get mHelpAndSupport {
+    _$mHelpAndSupportAtom.reportRead();
+    return super.mHelpAndSupport;
+  }
+
+  @override
+  set mHelpAndSupport(String? value) {
+    _$mHelpAndSupportAtom.reportWrite(value, super.mHelpAndSupport, () {
+      super.mHelpAndSupport = value;
+    });
+  }
+
+  late final _$userPhoneAtom =
+      Atom(name: '_AppStore.userPhone', context: context);
+
+  @override
+  String get userPhone {
+    _$userPhoneAtom.reportRead();
+    return super.userPhone;
+  }
+
+  @override
+  set userPhone(String value) {
+    _$userPhoneAtom.reportWrite(value, super.userPhone, () {
+      super.userPhone = value;
+    });
+  }
+
+  late final _$selectedTripTotalAmountAtom =
+      Atom(name: '_AppStore.selectedTripTotalAmount', context: context);
+
+  @override
+  num get selectedTripTotalAmount {
+    _$selectedTripTotalAmountAtom.reportRead();
+    return super.selectedTripTotalAmount;
+  }
+
+  @override
+  set selectedTripTotalAmount(num value) {
+    _$selectedTripTotalAmountAtom
+        .reportWrite(value, super.selectedTripTotalAmount, () {
+      super.selectedTripTotalAmount = value;
+    });
+  }
+
+  late final _$setSelectedTripTotalAmountAsyncAction =
+      AsyncAction('_AppStore.setSelectedTripTotalAmount', context: context);
+
+  @override
+  Future<void> setSelectedTripTotalAmount(num val) {
+    return _$setSelectedTripTotalAmountAsyncAction
+        .run(() => super.setSelectedTripTotalAmount(val));
+  }
+
+  late final _$setIsRiderForAnotherAsyncAction =
+      AsyncAction('_AppStore.setIsRiderForAnother', context: context);
+
+  @override
+  Future<void> setIsRiderForAnother(String? val) {
+    return _$setIsRiderForAnotherAsyncAction
+        .run(() => super.setIsRiderForAnother(val));
+  }
+
+  late final _$setisMultiDropAsyncAction =
+      AsyncAction('_AppStore.setisMultiDrop', context: context);
+
+  @override
+  Future<void> setisMultiDrop(String? val) {
+    return _$setisMultiDropAsyncAction.run(() => super.setisMultiDrop(val));
+  }
+
+  late final _$setisScheduleRideAsyncAction =
+      AsyncAction('_AppStore.setisScheduleRide', context: context);
+
+  @override
+  Future<void> setisScheduleRide(String? val) {
+    return _$setisScheduleRideAsyncAction
+        .run(() => super.setisScheduleRide(val));
+  }
+
+  late final _$setisBidEnableAsyncAction =
+      AsyncAction('_AppStore.setisBidEnable', context: context);
+
+  @override
+  Future<void> setisBidEnable(String? val) {
+    return _$setisBidEnableAsyncAction.run(() => super.setisBidEnable(val));
+  }
+
   late final _$setFirstNameAsyncAction =
       AsyncAction('_AppStore.setFirstName', context: context);
 
@@ -452,6 +656,15 @@ mixin _$AppStore on _AppStore, Store {
         .run(() => super.setLanguage(aCode, context: context));
   }
 
+  late final _$setUserPhoneAsyncAction =
+      AsyncAction('_AppStore.setUserPhone', context: context);
+
+  @override
+  Future<void> setUserPhone(String val, {bool isInitialization = false}) {
+    return _$setUserPhoneAsyncAction
+        .run(() => super.setUserPhone(val, isInitialization: isInitialization));
+  }
+
   @override
   String toString() {
     return '''
@@ -472,7 +685,17 @@ currencyPosition: ${currencyPosition},
 currencyName: ${currencyName},
 rideMinutes: ${rideMinutes},
 minAmountToAdd: ${minAmountToAdd},
-maxAmountToAdd: ${maxAmountToAdd}
+maxAmountToAdd: ${maxAmountToAdd},
+isRiderForAnother: ${isRiderForAnother},
+isMultiDrop: ${isMultiDrop},
+isScheduleRide: ${isScheduleRide},
+isBidEnable: ${isBidEnable},
+settingModel: ${settingModel},
+privacyPolicy: ${privacyPolicy},
+termsCondition: ${termsCondition},
+mHelpAndSupport: ${mHelpAndSupport},
+userPhone: ${userPhone},
+selectedTripTotalAmount: ${selectedTripTotalAmount}
     ''';
   }
 }
