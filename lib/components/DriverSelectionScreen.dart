@@ -154,8 +154,9 @@ class _DriverSelectionScreenState extends State<DriverSelectionScreen>
               isLoading = false;
             });
 
-            // Load driver ratings asynchronously
+            // Load driver ratings and details asynchronously
             _loadDriverRatings();
+            _loadDriverDetails();
           }
         }
       } else {
@@ -185,6 +186,8 @@ class _DriverSelectionScreenState extends State<DriverSelectionScreen>
               }).toList();
               isLoading = false;
             });
+            // Load driver details for nearby drivers
+            _loadDriverDetails();
           } else {
             setState(() {
               availableDrivers = [];
@@ -280,6 +283,32 @@ class _DriverSelectionScreenState extends State<DriverSelectionScreen>
           setState(() {
             driverRatings[driver.id!] = rating;
           });
+        }
+      }
+    }
+  }
+
+  // Load driver details including car information
+  Future<void> _loadDriverDetails() async {
+    for (int i = 0; i < availableDrivers.length; i++) {
+      Driver driver = availableDrivers[i];
+      if (driver.id != null && driver.userDetail == null) {
+        try {
+          final driverDetailResponse = await getDriverDetail(userId: driver.id);
+          if (driverDetailResponse.data?.userDetail != null && mounted) {
+            setState(() {
+              availableDrivers[i].userDetail = UserDetail(
+                carModel: driverDetailResponse.data!.userDetail!.carModel,
+                carPlateNumber:
+                    driverDetailResponse.data!.userDetail!.carPlateNumber,
+                carColor: driverDetailResponse.data!.userDetail!.carColor,
+                carProductionYear:
+                    driverDetailResponse.data!.userDetail!.carProductionYear,
+              );
+            });
+          }
+        } catch (e) {
+          print('Error loading driver details for driver ${driver.id}: $e');
         }
       }
     }
@@ -902,24 +931,78 @@ class _DriverSelectionScreenState extends State<DriverSelectionScreen>
                                   ],
                                 ),
                               ),
-                              /*    SizedBox(height: 8),
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 8, vertical: 4),
-                                decoration: BoxDecoration(
-                                  color: Colors.green[50],
-                                  borderRadius: BorderRadius.circular(6),
-                                  border: Border.all(color: Colors.green[200]!),
+
+                              // Car details section
+                              SizedBox(height: 8),
+                              if (driver.userDetail?.carModel != null ||
+                                  driver.userDetail?.carPlateNumber != null)
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    if (driver.userDetail?.carModel !=
+                                        null) ...[
+                                      Container(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 8, vertical: 4),
+                                        decoration: BoxDecoration(
+                                          color: Colors.purple[50],
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          border: Border.all(
+                                              color: Colors.purple[200]!),
+                                        ),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Icon(Icons.directions_car,
+                                                color: Colors.purple[600],
+                                                size: 16),
+                                            SizedBox(width: 4),
+                                            Text(
+                                              "موديل السيارة: ${driver.userDetail!.carModel!}",
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.purple[800],
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(height: 4),
+                                    ],
+                                    if (driver.userDetail?.carPlateNumber !=
+                                        null)
+                                      Container(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 8, vertical: 4),
+                                        decoration: BoxDecoration(
+                                          color: Colors.orange[50],
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          border: Border.all(
+                                              color: Colors.orange[200]!),
+                                        ),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Icon(Icons.confirmation_number,
+                                                color: Colors.orange[600],
+                                                size: 16),
+                                            SizedBox(width: 4),
+                                            Text(
+                                              "رقم اللوحة: ${driver.userDetail!.carPlateNumber!}",
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.orange[800],
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                  ],
                                 ),
-                                child: Text(
-                                  "متاح الآن",
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    color: Colors.green[700],
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ), */
                             ],
                           ),
                         ),
