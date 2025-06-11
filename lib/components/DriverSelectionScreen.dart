@@ -443,13 +443,13 @@ class _DriverSelectionScreenState extends State<DriverSelectionScreen>
       backgroundColor: Color(0xFFF8F9FA),
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         title: Text(
           "اختيار السائق",
           style: TextStyle(
             color: Colors.black87,
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
           ),
         ),
         centerTitle: true,
@@ -460,7 +460,7 @@ class _DriverSelectionScreenState extends State<DriverSelectionScreen>
             borderRadius: BorderRadius.circular(12),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.1),
+                color: Colors.black.withOpacity(0.05),
                 blurRadius: 8,
                 offset: Offset(0, 2),
               ),
@@ -481,84 +481,83 @@ class _DriverSelectionScreenState extends State<DriverSelectionScreen>
       ),
       body: Stack(
         children: [
-          FadeTransition(
-            opacity: _fadeAnimation,
-            child: SlideTransition(
-              position: _slideAnimation,
-              child: Column(
-                children: [
-                  // Enhanced Header section
-                  Container(
-                    padding: EdgeInsets.all(24),
-                    margin: EdgeInsets.fromLTRB(16, 8, 16, 16),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          primaryColor,
-                          primaryColor.withOpacity(0.8),
-                          primaryColor.withOpacity(0.9),
-                        ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: primaryColor.withOpacity(0.4),
-                          blurRadius: 20,
-                          offset: Offset(0, 10),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        ScaleTransition(
-                          scale: _pulseAnimation,
-                          child: Container(
-                            padding: EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.2),
-                              shape: BoxShape.circle,
-                            ),
-                            child: Icon(
-                              Icons.directions_car,
-                              color: Colors.white,
-                              size: 40,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 16),
-                        Text(
-                          "تم العثور على سائق!",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(height: 8),
-                        Text(
-                          "يرجى اختيار السائق المناسب لرحلتك",
-                          style: TextStyle(
-                            color: Colors.white.withOpacity(0.9),
-                            fontSize: 16,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  // Drivers list
-                  Expanded(
-                    child: isLoading
-                        ? _buildLoadingWidget()
-                        : availableDrivers.isEmpty
-                            ? _buildEmptyWidget()
-                            : _buildDriversList(),
-                  ),
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.white,
+                  Color(0xFFF8F9FA),
                 ],
               ),
+            ),
+            child: Column(
+              children: [
+                // Header Section with improved design
+                Container(
+                  margin: EdgeInsets.all(16),
+                  padding: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Color(0xFF4CAF50), Color(0xFF66BB6A)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0xFF4CAF50).withOpacity(0.3),
+                        blurRadius: 15,
+                        offset: Offset(0, 5),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.2),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.directions_car,
+                          color: Colors.white,
+                          size: 32,
+                        ),
+                      ),
+                      SizedBox(height: 12),
+                      Text(
+                        "تم العثور على سائق!",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 6),
+                      Text(
+                        "يرجى اختيار السائق المناسب لرحلتك",
+                        style: TextStyle(
+                          color: Colors.white.withOpacity(0.9),
+                          fontSize: 14,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ),
+
+                // Drivers list
+                Expanded(
+                  child: isLoading
+                      ? _buildLoadingWidget()
+                      : availableDrivers.isEmpty
+                          ? _buildEmptyWidget()
+                          : _buildDriversList(),
+                ),
+              ],
             ),
           ),
           Observer(builder: (context) {
@@ -578,7 +577,7 @@ class _DriverSelectionScreenState extends State<DriverSelectionScreen>
                       children: [
                         CircularProgressIndicator(
                           valueColor:
-                              AlwaysStoppedAnimation<Color>(primaryColor),
+                              AlwaysStoppedAnimation<Color>(Color(0xFF4CAF50)),
                         ),
                         SizedBox(height: 16),
                         Text(
@@ -673,467 +672,152 @@ class _DriverSelectionScreenState extends State<DriverSelectionScreen>
         final driverDistance = _getDriverDistance(driver);
         final estimatedTime = _getEstimatedArrivalTime(driver);
 
-        return AnimatedContainer(
-          duration: Duration(milliseconds: 300),
-          margin: EdgeInsets.only(bottom: 20),
+        return Container(
+          margin: EdgeInsets.only(bottom: 16),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.08),
-                blurRadius: 20,
-                offset: Offset(0, 8),
+                color: Colors.black.withOpacity(0.06),
+                blurRadius: 10,
+                offset: Offset(0, 4),
               ),
             ],
-            border: Border.all(
-              color: selectedDriver?.id == driver.id
-                  ? primaryColor
-                  : Colors.transparent,
-              width: 2,
-            ),
           ),
-          child: Material(
-            color: Colors.transparent,
-            child: InkWell(
-              borderRadius: BorderRadius.circular(20),
-              onTap: () {
-                setState(() {
-                  selectedDriver = driver;
-                });
-                HapticFeedback.lightImpact();
-              },
-              child: Padding(
-                padding: EdgeInsets.all(24),
-                child: Column(
+          child: Padding(
+            padding: EdgeInsets.all(16),
+            child: Column(
+              children: [
+                // Driver main info row
+                Row(
                   children: [
-                    Row(
-                      children: [
-                        // Enhanced Driver avatar with online indicator
-                        GestureDetector(
-                          onTap: () => _showDriverProfile(driver),
-                          child: Stack(
-                            children: [
-                              Container(
-                                width: 80,
-                                height: 80,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      primaryColor,
-                                      primaryColor.withOpacity(0.7)
-                                    ],
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomRight,
-                                  ),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: primaryColor.withOpacity(0.3),
-                                      blurRadius: 15,
-                                      offset: Offset(0, 5),
-                                    ),
-                                  ],
-                                ),
-                                padding: EdgeInsets.all(3),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.white,
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(40),
-                                    child: driver.profileImage != null &&
-                                            driver.profileImage!.isNotEmpty
-                                        ? Image.network(
-                                            driver.profileImage!,
-                                            fit: BoxFit.cover,
-                                            height: 74,
-                                            width: 74,
-                                            errorBuilder:
-                                                (context, error, stackTrace) {
-                                              return Container(
-                                                height: 74,
-                                                width: 74,
-                                                decoration: BoxDecoration(
-                                                  color: Colors.grey[100],
-                                                  shape: BoxShape.circle,
-                                                ),
-                                                child: Icon(
-                                                  Icons.person,
-                                                  color: Colors.grey[400],
-                                                  size: 35,
-                                                ),
-                                              );
-                                            },
-                                          )
-                                        : Container(
-                                            height: 74,
-                                            width: 74,
-                                            decoration: BoxDecoration(
-                                              color: Colors.grey[100],
-                                              shape: BoxShape.circle,
-                                            ),
-                                            child: Icon(
-                                              Icons.person,
-                                              color: Colors.grey[400],
-                                              size: 35,
-                                            ),
-                                          ),
-                                  ),
-                                ),
-                              ),
-                              // Enhanced online indicator
-                              Positioned(
-                                bottom: 5,
-                                right: 5,
-                                child: Container(
-                                  width: 20,
-                                  height: 20,
-                                  decoration: BoxDecoration(
-                                    color: Colors.green,
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                        color: Colors.white, width: 3),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.green.withOpacity(0.3),
-                                        blurRadius: 8,
-                                        offset: Offset(0, 2),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              // Tap indicator
-                            ],
+                    // Driver avatar
+                    GestureDetector(
+                      onTap: () => _showDriverProfile(driver),
+                      child: Container(
+                        width: 60,
+                        height: 60,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: Color(0xFF4CAF50).withOpacity(0.3),
+                            width: 2,
                           ),
                         ),
-                        SizedBox(width: 20),
-
-                        // Enhanced Driver info
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "${driver.firstName ?? ''} ${driver.lastName ?? ''}",
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black87,
-                                  fontFamily: 'Tajawal',
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                              ),
-                              SizedBox(height: 8),
-                              Row(
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 8, vertical: 4),
-                                    decoration: BoxDecoration(
-                                      color: driverRating > 0
-                                          ? Colors.amber[50]
-                                          : Colors.grey[50],
-                                      borderRadius: BorderRadius.circular(8),
-                                      border: Border.all(
-                                          color: driverRating > 0
-                                              ? Colors.amber[200]!
-                                              : Colors.grey[200]!),
-                                    ),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Icon(Icons.star,
-                                            color: driverRating > 0
-                                                ? Colors.amber
-                                                : Colors.grey[400],
-                                            size: 16),
-                                        SizedBox(width: 4),
-                                        Text(
-                                          driverRating > 0
-                                              ? driverRating.toStringAsFixed(1)
-                                              : "لا يوجد",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: driverRating > 0
-                                                ? Colors.amber[800]
-                                                : Colors.grey[600],
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(width: 12),
-                                  Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 6, vertical: 6),
-                                    decoration: BoxDecoration(
-                                      color: Colors.blue[50],
-                                      borderRadius: BorderRadius.circular(8),
-                                      border:
-                                          Border.all(color: Colors.blue[200]!),
-                                    ),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Icon(Icons.location_on,
-                                            color: Colors.blue[600], size: 16),
-                                        SizedBox(width: 4),
-                                        Text(
-                                          driverDistance,
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.blue[800],
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 8),
-                              // Estimated arrival time
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 8, vertical: 4),
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      Colors.green[50]!,
-                                      Colors.green[100]!
-                                    ],
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomRight,
-                                  ),
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(color: Colors.green[200]!),
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    /*    Icon(Icons.access_time,
-                                        color: Colors.green[700], size: 18),
-                                    SizedBox(width: 6), */
-                                    Text(
-                                      "يصل خلال $estimatedTime",
-                                      style: TextStyle(
-                                        fontSize: 10,
-                                        color: Colors.green[800],
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-
-                              // Car details section
-                              SizedBox(height: 8),
-                              if (driver.userDetail?.carModel != null ||
-                                  driver.userDetail?.carPlateNumber != null)
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    if (driver.userDetail?.carModel !=
-                                        null) ...[
+                        child: ClipOval(
+                          child: driver.profileImage != null &&
+                                  driver.profileImage!.isNotEmpty
+                              ? Image.network(
+                                  driver.profileImage!,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) =>
                                       Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 8, vertical: 4),
-                                        decoration: BoxDecoration(
-                                          color: Colors.purple[50],
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          border: Border.all(
-                                              color: Colors.purple[200]!),
-                                        ),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Icon(Icons.directions_car,
-                                                color: Colors.purple[600],
-                                                size: 16),
-                                            SizedBox(width: 4),
-                                            Text(
-                                              "موديل السيارة: ${driver.userDetail!.carModel!}",
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.purple[800],
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(height: 4),
-                                    ],
-                                    if (driver.userDetail?.carPlateNumber !=
-                                        null)
-                                      Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 8, vertical: 4),
-                                        decoration: BoxDecoration(
-                                          color: Colors.orange[50],
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          border: Border.all(
-                                              color: Colors.orange[200]!),
-                                        ),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Icon(Icons.confirmation_number,
-                                                color: Colors.orange[600],
-                                                size: 16),
-                                            SizedBox(width: 4),
-                                            Text(
-                                              "رقم اللوحة: ${driver.userDetail!.carPlateNumber!}",
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.orange[800],
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                  ],
-                                ),
-                            ],
-                          ),
-                        ),
-
-                        /*       // Enhanced Chat and Call buttons
-                        Column(
-                          children: [
-                            // Chat button
-                            InkWell(
-                              onTap: () => _openChatWithDriver(driver),
-                              child: Container(
-                                padding: EdgeInsets.all(12),
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      primaryColor,
-                                      primaryColor.withOpacity(0.8)
-                                    ],
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomRight,
-                                  ),
-                                  borderRadius: BorderRadius.circular(14),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: primaryColor.withOpacity(0.4),
-                                      blurRadius: 12,
-                                      offset: Offset(0, 6),
+                                    color: Color(0xFF4CAF50).withOpacity(0.1),
+                                    child: Icon(
+                                      Icons.person,
+                                      color: Color(0xFF4CAF50),
+                                      size: 30,
                                     ),
-                                  ],
-                                ),
-                                child: Icon(
-                                  Icons.chat_bubble_outline,
-                                  color: Colors.white,
-                                  size: 24,
-                                ),
-                              ),
-                            ),
-                            /*      SizedBox(height: 12),
-                            // Call button
-                            InkWell(
-                              onTap: () => _callDriver(driver),
-                              child: Container(
-                                padding: EdgeInsets.all(12),
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      Colors.green[600]!,
-                                      Colors.green[700]!
-                                    ],
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomRight,
                                   ),
-                                  borderRadius: BorderRadius.circular(14),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.green.withOpacity(0.4),
-                                      blurRadius: 12,
-                                      offset: Offset(0, 6),
-                                    ),
-                                  ],
+                                )
+                              : Container(
+                                  color: Color(0xFF4CAF50).withOpacity(0.1),
+                                  child: Icon(
+                                    Icons.person,
+                                    color: Color(0xFF4CAF50),
+                                    size: 30,
+                                  ),
                                 ),
-                                child: Icon(
-                                  Icons.phone,
-                                  color: Colors.white,
-                                  size: 24,
-                                ),
-                              ),
-                            ),
-                         */
-                          ],
                         ),
-                   */
-                      ],
+                      ),
                     ),
-
-                    SizedBox(height: 24),
-
-                    // Enhanced Action buttons
+                    SizedBox(width: 12),
+                    // Driver details
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "${driver.firstName ?? ''} ${driver.lastName ?? ''}"
+                                .trim(),
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black87,
+                            ),
+                          ),
+                          SizedBox(height: 4),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                                size: 16,
+                              ),
+                              SizedBox(width: 4),
+                              Text(
+                                driverRating > 0
+                                    ? driverRating.toStringAsFixed(1)
+                                    : "جديد",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.grey[600],
+                                ),
+                              ),
+                              SizedBox(width: 12),
+                              Icon(
+                                Icons.location_on,
+                                color: Colors.grey[600],
+                                size: 16,
+                              ),
+                              SizedBox(width: 4),
+                              Text(
+                                driverDistance,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey[600],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    // Contact actions
                     Row(
                       children: [
-                        // Reject button
-                        Expanded(
-                          child: Container(
-                            height: 50,
-                            child: ElevatedButton.icon(
-                              onPressed: () => _rejectDriver(driver),
-                              icon: Icon(Icons.close, size: 20),
-                              label: Text(
-                                "رفض",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.red[50],
-                                foregroundColor: Colors.red[700],
-                                elevation: 0,
-                                side: BorderSide(
-                                    color: Colors.red[200]!, width: 1.5),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(14),
-                                ),
-                              ),
+                        Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: Colors.blue.withOpacity(0.1),
+                            shape: BoxShape.circle,
+                          ),
+                          child: IconButton(
+                            onPressed: () => _openChatWithDriver(driver),
+                            icon: Icon(
+                              Icons.chat_bubble_outline,
+                              color: Colors.blue[600],
+                              size: 20,
                             ),
                           ),
                         ),
-                        SizedBox(width: 16),
-                        // Accept button
-                        Expanded(
-                          child: Container(
-                            height: 50,
-                            child: ElevatedButton.icon(
-                              onPressed: () => _acceptDriver(driver),
-                              icon: Icon(Icons.check, size: 20),
-                              label: Text(
-                                "قبول",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: primaryColor,
-                                foregroundColor: Colors.white,
-                                elevation: 8,
-                                shadowColor: primaryColor.withOpacity(0.4),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(14),
-                                ),
-                              ),
+                        SizedBox(width: 8),
+                        Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: Colors.green.withOpacity(0.1),
+                            shape: BoxShape.circle,
+                          ),
+                          child: IconButton(
+                            onPressed: () => _callDriver(driver),
+                            icon: Icon(
+                              Icons.phone,
+                              color: Colors.green[600],
+                              size: 20,
                             ),
                           ),
                         ),
@@ -1141,7 +825,137 @@ class _DriverSelectionScreenState extends State<DriverSelectionScreen>
                     ),
                   ],
                 ),
-              ),
+
+                SizedBox(height: 12),
+
+                // Car details and estimated time
+                Container(
+                  padding: EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[50],
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            if (driver.userDetail?.carModel != null)
+                              Text(
+                                "موديل السيارة: ${driver.userDetail!.carModel!}",
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.grey[700],
+                                ),
+                              ),
+                            if (driver.userDetail?.carPlateNumber != null)
+                              SizedBox(height: 4),
+                            if (driver.userDetail?.carPlateNumber != null)
+                              Text(
+                                "رقم اللوحة: ${driver.userDetail!.carPlateNumber!}",
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: Colors.grey[600],
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        decoration: BoxDecoration(
+                          color: Color(0xFF4CAF50).withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          "وقت الوصول: $estimatedTime",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF4CAF50),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                SizedBox(height: 16),
+
+                // Action buttons with modern design
+                Row(
+                  children: [
+                    // Reject button
+                    Expanded(
+                      child: Container(
+                        height: 48,
+                        child: ElevatedButton(
+                          onPressed: () => _rejectDriver(driver),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red[50],
+                            foregroundColor: Colors.red[600],
+                            elevation: 0,
+                            side: BorderSide(color: Colors.red[200]!, width: 1),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.close, size: 18),
+                              SizedBox(width: 8),
+                              Text(
+                                "رفض",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 12),
+                    // Accept button
+                    Expanded(
+                      child: Container(
+                        height: 48,
+                        child: ElevatedButton(
+                          onPressed: () => _acceptDriver(driver),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0xFF4CAF50),
+                            foregroundColor: Colors.white,
+                            elevation: 2,
+                            shadowColor: Color(0xFF4CAF50).withOpacity(0.3),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.check, size: 18),
+                              SizedBox(width: 8),
+                              Text(
+                                "قبول",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         );

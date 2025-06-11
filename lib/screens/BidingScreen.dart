@@ -196,34 +196,62 @@ class BidingscreenState extends State<Bidingscreen> {
           )
         ],
       ),
-      bottomNavigationBar: Padding(
+      bottomNavigationBar: Container(
         padding: const EdgeInsets.all(16.0),
-        child: AppButtonWidget(
-            width: MediaQuery.of(context).size.width,
-            text: language.cancel,
-            textColor: primaryColor,
-            color: Colors.white,
-            shapeBorder: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(defaultRadius),
-                side: BorderSide(color: primaryColor)),
-            onTap: () {
-              showModalBottomSheet(
-                  context: context,
-                  isDismissible: false,
-                  isScrollControlled: true,
-                  builder: (context) {
-                    return CancelOrderDialog(
-                      onCancel: (reason) async {
-                        Navigator.pop(context);
-                        appStore.setLoading(true);
-                        sharedPref.remove(REMAINING_TIME2);
-                        sharedPref.remove(IS_TIME2);
-                        await cancelRequest(reason);
-                        appStore.setLoading(false);
-                      },
-                    );
-                  });
-            }),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 10,
+              offset: Offset(0, -2),
+            ),
+          ],
+        ),
+        child: ElevatedButton(
+          onPressed: () {
+            showModalBottomSheet(
+                context: context,
+                isDismissible: false,
+                isScrollControlled: true,
+                builder: (context) {
+                  return CancelOrderDialog(
+                    onCancel: (reason) async {
+                      Navigator.pop(context);
+                      appStore.setLoading(true);
+                      sharedPref.remove(REMAINING_TIME2);
+                      sharedPref.remove(IS_TIME2);
+                      await cancelRequest(reason);
+                      appStore.setLoading(false);
+                    },
+                  );
+                });
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.red[50],
+            foregroundColor: Colors.red[600],
+            elevation: 0,
+            minimumSize: Size(double.infinity, 50),
+            side: BorderSide(color: Colors.red[200]!, width: 1),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.close, size: 18),
+              SizedBox(width: 8),
+              Text(
+                language.cancel,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
       body: dataModel == null
           ? SizedBox()
@@ -495,91 +523,185 @@ class BidingscreenState extends State<Bidingscreen> {
                               padding: EdgeInsets.only(bottom: 10),
                               physics: NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) {
-                                return Padding(
-                                  padding: EdgeInsets.only(top: 8),
-                                  child: Container(
-                                      padding:
-                                          EdgeInsets.only(left: 8, bottom: 8),
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          // border: Border.all(color: Colors.grey.shade300),
-                                          boxShadow: [
-                                            BoxShadow(
-                                                color: Colors.black45,
-                                                spreadRadius: 1,
-                                                blurRadius: 1)
-                                          ],
-                                          borderRadius:
-                                              BorderRadius.circular(14)),
-                                      // decoration: BoxDecoration(border: Border.all(color: dividerColor), borderRadius: BorderRadius.circular(defaultRadius)),
+                                return Container(
+                                  margin: EdgeInsets.only(bottom: 16),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(16),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.06),
+                                        blurRadius: 10,
+                                        offset: Offset(0, 4),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Padding(
+                                      padding: EdgeInsets.all(16),
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
                                         children: [
+                                          // Driver info row
                                           Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
                                             children: [
+                                              // Driver avatar placeholder
+                                              Container(
+                                                width: 50,
+                                                height: 50,
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: Color(0xFF4CAF50)
+                                                      .withOpacity(0.1),
+                                                ),
+                                                child: Icon(
+                                                  Icons.person,
+                                                  color: Color(0xFF4CAF50),
+                                                  size: 24,
+                                                ),
+                                              ),
+                                              SizedBox(width: 12),
+                                              // Driver details
                                               Expanded(
                                                 child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
-                                                    printAmountWidget(
-                                                        amount: dataModel!
-                                                            .data![index]
-                                                            .bidAmount),
                                                     Text(
-                                                        dataModel!.data![index]
-                                                            .driverName,
-                                                        maxLines: 1,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        style:
-                                                            secondaryTextStyle()),
+                                                      dataModel!.data![index]
+                                                          .driverName,
+                                                      style: TextStyle(
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color: Colors.black87,
+                                                      ),
+                                                      maxLines: 1,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                    ),
+                                                    SizedBox(height: 4),
+                                                    // Price display
+                                                    printAmountWidget(
+                                                      amount: dataModel!
+                                                          .data![index]
+                                                          .bidAmount,
+                                                    ),
                                                   ],
                                                 ),
                                               ),
-                                              Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  IconButton(
+                                            ],
+                                          ),
+
+                                          SizedBox(height: 16),
+
+                                          // Action buttons
+                                          Row(
+                                            children: [
+                                              // Reject button
+                                              Expanded(
+                                                child: Container(
+                                                  height: 44,
+                                                  child: ElevatedButton(
+                                                    onPressed: () {
+                                                      rejectBid(
+                                                        driverId: dataModel!
+                                                            .data![index]
+                                                            .driverId
+                                                            .toString(),
+                                                      );
+                                                    },
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                      backgroundColor:
+                                                          Colors.red[50],
+                                                      foregroundColor:
+                                                          Colors.red[600],
+                                                      elevation: 0,
+                                                      side: BorderSide(
+                                                        color: Colors.red[200]!,
+                                                        width: 1,
+                                                      ),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(12),
+                                                      ),
+                                                    ),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Icon(Icons.close,
+                                                            size: 16),
+                                                        SizedBox(width: 6),
+                                                        Text(
+                                                          "رفض",
+                                                          style: TextStyle(
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(width: 12),
+                                              // Accept button
+                                              Expanded(
+                                                child: Container(
+                                                  height: 44,
+                                                  child: ElevatedButton(
                                                     onPressed: () {
                                                       d2 = null;
                                                       acceptBid(
-                                                          driverId: dataModel!
-                                                              .data![index]
-                                                              .driverId
-                                                              .toString());
+                                                        driverId: dataModel!
+                                                            .data![index]
+                                                            .driverId
+                                                            .toString(),
+                                                      );
                                                     },
-                                                    icon: Icon(
-                                                      Icons.check_circle,
-                                                      size: 35,
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                      backgroundColor:
+                                                          Color(0xFF4CAF50),
+                                                      foregroundColor:
+                                                          Colors.white,
+                                                      elevation: 2,
+                                                      shadowColor:
+                                                          Color(0xFF4CAF50)
+                                                              .withOpacity(0.3),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(12),
+                                                      ),
                                                     ),
-                                                    color: Colors.green,
-                                                  ),
-                                                  IconButton(
-                                                    onPressed: () {
-                                                      rejectBid(
-                                                          driverId: dataModel!
-                                                              .data![index]
-                                                              .driverId
-                                                              .toString());
-                                                    },
-                                                    icon: Icon(
-                                                      Icons.cancel,
-                                                      size: 35,
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Icon(Icons.check,
+                                                            size: 16),
+                                                        SizedBox(width: 6),
+                                                        Text(
+                                                          "قبول",
+                                                          style: TextStyle(
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ),
-                                                    color: Colors.red,
                                                   ),
-                                                ],
+                                                ),
                                               ),
                                             ],
                                           ),
